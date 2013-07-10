@@ -38,12 +38,11 @@ function main = |args| {
 
 	for (var i = 0, i < 25, i = i + 1)  {
 
-		let future = executor:getFuture(
+		let future = executor:getFuture(			# run it
 			 MyCallable
-			,"future : " + i
-			,|arg| {println(arg + " Submitted")} # Callback when MyCallable is submitted
-			,|arg| {println(arg + " Done")}		# Callback when MyCallable is done
-												# Callback (when done) is passed to MyCallable
+			,"future : " + i						# Message
+			,|arg| { println(arg + " Done") }		# Callback when MyCallable is done / Callback (when done) is passed to MyCallable
+			,|arg| { println(arg + " Submitted") }	# Callback when MyCallable is submitted
 		)
 
 		Thread.sleep(300_L)

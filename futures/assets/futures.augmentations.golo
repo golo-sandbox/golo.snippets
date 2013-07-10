@@ -35,17 +35,14 @@ augment java.util.concurrent.ExecutorService {
 	#  - called when callable is submitted by ExecutorService
 	#  - message is passed as parameter of callBackWhenSubmitted
 	# callBackWhenDone : passed as 2nd parameter of the callable
-	function getFuture = |this, callable, message, callBackWhenSubmitted, callBackWhenDone| {
+	function getFuture = |this, callable, message, callBackWhenDone, callBackWhenSubmitted| {
 		let worker = (-> callable(message, callBackWhenDone)):to(java.util.concurrent.Callable.class)
 		if callBackWhenSubmitted isnt null { callBackWhenSubmitted(message) }
 		return this:submit(worker) #future is run when submit()
 	}
 
-	# REM : callBackWhenDone : not necessarily useful
-
-	function getFuture = |this, callable, message, callBackWhenSubmitted| {
-		let worker = (-> callable(message)):to(java.util.concurrent.Callable.class)
-		if callBackWhenSubmitted isnt null { callBackWhenSubmitted(message) }
+	function getFuture = |this, callable, message, callBackWhenDone| {
+		let worker = (-> callable(message, callBackWhenDone)):to(java.util.concurrent.Callable.class)
 		return this:submit(worker) #future is run when submit()
 	}
 
